@@ -13,7 +13,7 @@ class PostRepository
 
     public function findByUlid(string $ulid)
     {
-        return Post::where('ulid', $ulid)->firstOrFail();
+        return Post::with(['comments.user', 'user'])->where('ulid', $ulid)->firstOrFail();
     }
 
     public function create(array $data): Post

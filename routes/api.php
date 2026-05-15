@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,13 +13,11 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 
-    Route::prefix('posts')->group(function () {
-        Route::get('/', [PostController::class, 'index']);
-        Route::post('/create', [PostController::class, 'create']);
-        Route::get('/{post}', [PostController::class, 'show']);
-        Route::put('/{post}', [PostController::class, 'update']);
-        Route::delete('/{post}', [PostController::class, 'delete']);
-    });
+    Route::apiResource('posts.comments', CommentController::class)->only(['store']);
+    // Route::post('/posts/{post}/comments', [CommentController::class, 'store']);
+
+    Route::put('/comments/{comment}', [CommentController::class, 'update']);
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
 
     Route::apiResource('posts', PostController::class);
 });

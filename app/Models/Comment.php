@@ -2,27 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Console\Attributes\Hidden;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-#[Fillable(['content', 'user_id'])]
-#[Hidden(['id'])]
-class Post extends Model
+#[Fillable(['content', 'user_id', 'post_id'])]
+class Comment extends Model
 {
-    // use HasUlids;
-
     protected $hidden = [
         'id',
+        'post_id'
     ];
 
     protected static function booted(): void
     {
-        static::creating(function ($post) {
-
-            if (!$post->ulid) {
-                $post->ulid = (string) Str::ulid();
+        static::creating(function ($comment) {
+            if (!$comment->ulid) {
+                $comment->ulid = (string) Str::ulid();
             }
         });
     }
@@ -37,8 +33,8 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function comments()
+    public function post()
     {
-        return $this->hasMany(Comment::class);
+        return $this->belongsTo(Post::class);
     }
 }
