@@ -24,11 +24,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/posts/{post}/like', [
         LikeController::class,
-        'togglePost'
+        'toggleLikePost'
     ]);
 
     Route::post('/comments/{comment}/like', [
         LikeController::class,
-        'toggleComment'
+        'toggleLikeComment'
     ]);
 });

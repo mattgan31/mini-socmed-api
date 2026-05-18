@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\LikeRepository;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class LikeService
 {
@@ -13,7 +14,17 @@ class LikeService
 
     public function toggle(Model $model)
     {
-        $liked = $this->likeRepository->toggle($model);
+        $user_id = Auth::id();
+        $is_liked = $this->likeRepository->isLiked($model, $user_id);
+
+        $liked = null;
+        if ($is_liked) {
+            $this->likeRepository->toggleUnlike($is_liked);
+            $liked = false;
+        } else {
+            $this->likeRepository->toggleLike($model, $user_id);
+            $liked = true;
+        }
 
         return [
             'liked' => $liked,

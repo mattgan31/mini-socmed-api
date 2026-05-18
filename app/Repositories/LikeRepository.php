@@ -2,26 +2,27 @@
 
 namespace App\Repositories;
 
+use App\Models\Like;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class LikeRepository
 {
-    public function toggle(Model $model)
+    public function toggleLike(Model $model, int $user_id): void
     {
-        $user_id = Auth::id();
-        $like = $model->likes()
-            ->where('user_id', $user_id);
-
-        if ($like->exists()) {
-            $like->delete();
-            return false;
-        }
-
         $model->likes()->create([
             'user_id' => $user_id
         ]);
+    }
 
-        return true;
+    public function toggleUnlike(Like $like): void
+    {
+        $like->delete();
+    }
+
+    public function isLiked(Model $model, int $user_id)
+    {
+        return $model->likes()->where('user_id', $user_id)->first();
     }
 }

@@ -16,7 +16,7 @@ class LikeController extends Controller
         protected LikeService $likeService
     ) {}
 
-    public function togglePost(Post $post)
+    public function toggleLikePost(Post $post)
     {
         $result = $this->likeService->toggle($post);
 
@@ -26,7 +26,7 @@ class LikeController extends Controller
         );
     }
 
-    public function toggleComment(Comment $comment)
+    public function toggleLikeComment(Comment $comment)
     {
         $result = $this->likeService->toggle($comment);
 
