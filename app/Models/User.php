@@ -40,4 +40,25 @@ class User extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    // Relationship relation
+    public function followers()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'relationships',
+            'following_id',
+            'follower_id',
+        );
+    }
+
+    public function followings()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'relationships',
+            'follower_id',
+            'following_id',
+        );
+    }
 }

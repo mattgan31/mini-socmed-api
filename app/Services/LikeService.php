@@ -14,15 +14,15 @@ class LikeService
 
     public function toggle(Model $model)
     {
-        $user_id = Auth::id();
-        $is_liked = $this->likeRepository->isLiked($model, $user_id);
+        $userId = Auth::id();
+        $is_liked = $this->likeRepository->isLiked($model, $userId);
 
         $liked = null;
         if ($is_liked) {
             $this->likeRepository->toggleUnlike($is_liked);
             $liked = false;
         } else {
-            $this->likeRepository->toggleLike($model, $user_id);
+            $this->likeRepository->toggleLike($model, $userId);
             $liked = true;
         }
 

@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class LikeRepository
 {
-    public function toggleLike(Model $model, int $user_id): void
+    public function toggleLike(Model $model, int $userId): void
     {
         $model->likes()->create([
-            'user_id' => $user_id
+            'user_id' => $userId
         ]);
     }
 
@@ -21,8 +21,8 @@ class LikeRepository
         $like->delete();
     }
 
-    public function isLiked(Model $model, int $user_id)
+    public function isLiked(Model $model, int $userId)
     {
-        return $model->likes()->where('user_id', $user_id)->first();
+        return $model->likes()->where('user_id', $userId)->first();
     }
 }
