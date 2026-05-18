@@ -8,12 +8,12 @@ class PostRepository
 {
     public function all()
     {
-        return Post::all();
+        return Post::with(['user'])->withCount(['likes'])->latest()->paginate(10);
     }
 
     public function findByUlid(string $ulid)
     {
-        return Post::with(['comments.user', 'user'])->where('ulid', $ulid)->firstOrFail();
+        return Post::with(['user',])->withCount(['likes'])->where('ulid', $ulid)->firstOrFail();
     }
 
     public function create(array $data): Post

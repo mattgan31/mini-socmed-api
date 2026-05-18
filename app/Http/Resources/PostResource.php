@@ -15,14 +15,9 @@ class PostResource extends JsonResource
         return [
             'id' => $this->ulid,
             'content' => $this->content,
+            'likes' => $this->likes_count,
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'user' => new UserResource(
-                $this->whenLoaded('user')
-            ),
-            'comments' => CommentResource::collection(
-                $this->whenLoaded('comments')
-            ),
+            'user' => new UserResource($this->whenLoaded('user'))
         ];
     }
 }

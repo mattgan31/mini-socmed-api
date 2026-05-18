@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-#[Fillable(['content', 'user_id', 'post_id'])]
+#[Fillable(['content', 'user_id', 'post_id', 'parent_id'])]
 class Comment extends Model
+// TODO parent_id (nullable) for comment the comment
 {
     protected $hidden = [
         'id',
@@ -36,5 +37,20 @@ class Comment extends Model
     public function post()
     {
         return $this->belongsTo(Post::class);
+    }
+
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function replies()
+    {
+        return $this->hasMany(Comment::class, 'parent_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class);
     }
 }

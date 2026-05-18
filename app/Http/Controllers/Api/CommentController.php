@@ -5,14 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\StorePostRequest;
+use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Services\CommentService;
+use App\Trait\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
 class CommentController extends Controller
 {
+    use ApiResponse;
+
     public function __construct(
         protected CommentService $commentService
     ) {}
@@ -27,9 +31,10 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request, Post $post)
+    public function store(StoreCommentRequest $request, Post $post)
     {
-        return $this->commentService->create($request->validated(), $post);
+        $result = $this->commentService->create($request->validated(), $post);
+        return $this->successResponse(new CommentResource($result));
     }
 
     /**
