@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\FollowController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -30,5 +31,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/comments/{comment}/like', [
         LikeController::class,
         'toggleLikeComment'
+    ]);
+
+    Route::post('/follows/{targetUser}', [
+        FollowController::class,
+        'toggleFollow'
     ]);
 });

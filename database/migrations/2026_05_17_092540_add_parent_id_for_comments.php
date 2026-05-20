@@ -28,7 +28,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('posts', function (Blueprint $table) {
+        Schema::table('comments', function (Blueprint $table) {
             $table->dropColumn('parent_id');
             $table->dropIndex(['post_id', 'parent_id']);
             $table->dropSoftDeletes();

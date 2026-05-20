@@ -31,6 +31,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'username';
+    }
+
     public function posts()
     {
         return $this->hasMany(Post::class);
@@ -41,24 +46,24 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-    // Relationship relation
+    // Follow relation
     public function followers()
     {
         return $this->belongsToMany(
             User::class,
-            'relationships',
+            'follows',
             'following_id',
             'follower_id',
-        );
+        )->withTimestamps();
     }
 
     public function followings()
     {
         return $this->belongsToMany(
             User::class,
-            'relationships',
+            'follows',
             'follower_id',
             'following_id',
-        );
+        )->withTimestamps();
     }
 }
